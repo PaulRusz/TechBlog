@@ -8,6 +8,12 @@ class Post extends Model {}
 Post.init(
     {
         // Define the fields of the Post model
+        id: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            primaryKey: true,
+            autoIncrement: true,
+        },
         title: {
             type: DataTypes.STRING,
             allowNull: false
