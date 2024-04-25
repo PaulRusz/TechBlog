@@ -1,12 +1,11 @@
 
 const { Model, DataTypes } = require('sequelize');
-const sequelize = require('../config/connection')
+const sequelize = require('../config/connection');
 
 class Comment extends Model {}
 
 Comment.init(
     {
-        // Define the fields of the Comment model
         id: {
             type: DataTypes.INTEGER,
             allowNull: false,
@@ -14,20 +13,22 @@ Comment.init(
             autoIncrement: true,
         },
         content: {
-            type: DataTypes.String,
-            required: true
+            type: DataTypes.STRING, // Use DataTypes.STRING instead of DataTypes.String
+            allowNull: false, // Use allowNull instead of required
         },
         author: {
-            type: String,
-            required: true
+            type: DataTypes.STRING, // Use DataTypes.STRING for string data type
+            allowNull: false, // Use allowNull instead of required
         },
         createdAt: {
-            type: Date,
-            default: Date.now
+            type: DataTypes.DATE,
+            defaultValue: DataTypes.NOW, // Use DataTypes.NOW for default value
         },
-        sequelize, 
+    },
+    {
+        sequelize, // Pass the Sequelize instance here
         modelName: 'comment'
     }
-)
+);
 
-module.exports = Comment
+module.exports = Comment;

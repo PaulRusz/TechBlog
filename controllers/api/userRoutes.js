@@ -1,5 +1,6 @@
 const express = require('express')
 const { User } = require('../../models');
+const router = require('express').Router();
 
 
 // route handler to create a new user
@@ -63,4 +64,4 @@ router.post('/logout', (req, res) => {
 })
 
 
-module.exports = router
+module.exports = router;

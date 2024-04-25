@@ -1,5 +1,5 @@
 const express = require('express')
-const router = express.Router()
+const router = require('express').Router();
 // Import the Comment model
 const { Comment } = require('../../models')
 

@@ -7,7 +7,6 @@ class Post extends Model {}
 
 Post.init(
     {
-        // Define the fields of the Post model
         id: {
             type: DataTypes.INTEGER,
             allowNull: false,
@@ -17,21 +16,23 @@ Post.init(
         title: {
             type: DataTypes.STRING,
             allowNull: false
+        },
+        content: {
+            type: DataTypes.TEXT,
+            allowNull: false
+        },
+        publication_date: {
+            type: DataTypes.DATE,
+            defaultValue: DataTypes.NOW
+        }
     },
-    content: {
-        type: DataTypes.TEXT,
-        allowNull: false
-    },
-    publication_date: {
-        type: DataTypes.DATE,
-        defaultValue: DataTypes.NOW
-    },
-    sequelize,
-    timestamps: true,
-    freezeTableName: true,
-    underscored: true,
-    modelName: 'post'
-}
-)
+    {
+        sequelize, // Pass the Sequelize instance here
+        timestamps: true,
+        freezeTableName: true,
+        underscored: true,
+        modelName: 'post'
+    }
+);
 
 module.exports = Post;
