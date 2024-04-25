@@ -64,3 +64,5 @@ router.delete('posts/:postId', async (req, res) => {
         res.status(500).json({ message: 'Failed to delete post' })
     }
 })
+
+module.exports = router;
