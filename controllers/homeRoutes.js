@@ -53,41 +53,5 @@ router.post('/post/:postId/comment', async (req, res) => {
     }
 });
 
-// GET route for user registration form
-router.get('/register', (req, res) => {
-    res.render('register'); // Render the registration form view
-});
-
-// POST route for user login
-router.post('/login', async (req, res) => {
-    try {
-        const userData = await User.findOne({ where: { email: req.body.email } });
-
-        if (!userData || !userData.checkPassword(req.body.password)) {
-            res.status(400).json({ message: 'Incorrect email or password' });
-            return;
-        }
-
-        req.session.save(() => {
-            req.session.userId = userData.id;
-            req.session.loggedIn = true;
-            res.status(200).json({ user: userData, message: 'Login successful' });
-        });
-    } catch (err) {
-        console.log(err);
-        res.status(500).json({ message: 'Failed to login' });
-    }
-});
-
-// POST route for user logout
-router.post('/logout', (req, res) => {
-    if (req.session.loggedIn) {
-        req.session.destroy(() => {
-            res.status(204).end();
-        });
-    } else {
-        res.status(404).end();
-    }
-});
 
 module.exports = router;
