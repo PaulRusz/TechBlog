@@ -2,78 +2,40 @@ const router = require('express').Router();
 const sequelize = require('../config/connection');
 const { Post, User, Comment } = require('../models');
 const withAuth = require('../utils/auth');
-router.get('/', withAuth, (req, res) => {
-    Post.findAll({
-            where: {
-                user_id: req.session.user_id
-            },
-            attributes: [
-                'id',
-                'title',
-                'content',
-                'created_at'
-            ],
-            include: [{
-                    model: Comment,
-                    attributes: ['id', 'comment_text', 'post_id', 'user_id', 'created_at'],
-                    include: {
-                        model: User,
-                        attributes: ['username']
-                    }
-                },
-                {
-                    model: User,
-                    attributes: ['username']
-                }
-            ]
-        })
-        .then(dbPostData => {
-            const posts = dbPostData.map(post => post.get({ plain: true }));
-            res.render('dashboard', { posts, loggedIn: true });
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json(err);
-        });
-});
-router.get('/edit/:id', withAuth, (req, res) => {
-    Post.findOne({
-            where: {
-                id: req.params.id
-            },
-            attributes: ['id',
-                'title',
-                'content',
-                'created_at'
-            ],
-            include: [{
-                    model: User,
-                    attributes: ['username']
-                },
-                {
-                    model: Comment,
-                    attributes: ['id', 'comment_text', 'post_id', 'user_id', 'created_at'],
-                    include: {
-                        model: User,
-                        attributes: ['username']
-                    }
-                }
-            ]
-        })
-        .then(dbPostData => {
-            if (!dbPostData) {
-                res.status(404).json({ message: 'No post found with this id' });
-                return;
-            }
 
-            const post = dbPostData.get({ plain: true });
-            res.render('edit-post', { post, loggedIn: true });
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json(err);
-        });
-})
+// Middleware to check if user is logged in
+const withAuth = (req, res, next) => {
+    if (!req.session.loggedIn) {
+      res.redirect('/login');
+    } else {
+      next();
+    }
+  };
+  
+  // Dashboard route to display user's dashboard with all posts
+  router.get('/dashboard', withAuth, async (req, res) => {
+    try {
+      // Fetch all posts from the database
+      const posts = await Post.findAll();
+  
+      // Render the dashboard template with all posts
+      res.render('dashboard', { username: req.session.username, posts });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Internal Server Error' });
+    }
+  });
+  
+  // Dashboard route to handle logout
+  router.post('/logout', withAuth, (req, res) => {
+    req.session.destroy(() => {
+      res.redirect('/');
+    });
+  });
+  
+  module.exports = router;
+
+
 router.get('/new', (req, res) => {
     res.render('new-post');
 });
