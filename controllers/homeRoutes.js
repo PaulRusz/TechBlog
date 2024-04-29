@@ -2,12 +2,13 @@ const express = require('express');
 const { User, Comment, Post } = require('../models');
 const router = express.Router();
 const withAuth = require('../utils/auth');
+const sequelize = require('../config/connection');
 
 // GET route for the homepage
 router.get('/', async (req, res) => {
     try {
         const recentPosts = await Post.findAll({ limit: 5, order: [['createdAt', 'DESC']] });
-        res.render('homepage', { posts: recentPosts, logged_in: req.session.logged_in  
+        res.render('homepage', { posts: recentPosts, loggedIn: req.session.loggedIn  
     });
     } catch (error) {
         console.error(error);
@@ -32,7 +33,7 @@ router.get('/post/:postId', async (req, res) => {
             include: [{ model: User, attributes: ['username'] }]
         });
 
-        res.render('post', { post: postData, comments: commentsData, logged_in: req.session.logged_in });
+        res.render('post', { post: postData, comments: commentsData, loggedIn: req.session.loggedIn });
     } catch (err) {
         console.log(err);
         res.status(500).json({ message: 'Internal server error' });
@@ -52,7 +53,7 @@ router.get('/profile', withAuth, async (req, res) => {
   
       res.render('profile', {
         ...user,
-        logged_in: true
+        loggedIn: true
       });
     } catch (err) {
       res.status(500).json(err);
@@ -77,7 +78,7 @@ router.post('/post/:postId/comment', async (req, res) => {
 
 router.get('/login', (req, res) => {
     // If the user is already logged in, redirect the request to another route
-    if (req.session.logged_in) {
+    if (req.session.loggedIn) {
       res.redirect('/profile');
       return;
     }
