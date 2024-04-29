@@ -4,7 +4,7 @@ const router = require('express').Router();
 
 
 // Route to create a new post
-router.post('/api/posts', async (req, res) => {
+router.post('/api/post', async (req, res) => {
     try {
         const { title, content } = req.body
 
