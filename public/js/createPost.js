@@ -1,4 +1,4 @@
-const newBlogFormHandler = async (event) => {
+const newPostFormHandler = async (event) => {
     event.preventDefault();
   
     const title = document.querySelector('#title').value.trim();
@@ -14,9 +14,9 @@ const newBlogFormHandler = async (event) => {
       if (response.ok) {
         document.location.replace('/dashboard');
       } else {
-        alert('Failed to create blog post');
+        alert('Failed to create post');
       }
     }
   };
   
-  document.querySelector('#new-blog-form').addEventListener('submit', newBlogFormHandler);
+  document.querySelector('#new-post-form').addEventListener('submit', newPostFormHandler);
