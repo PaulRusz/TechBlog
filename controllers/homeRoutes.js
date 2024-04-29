@@ -6,7 +6,7 @@ const router = express.Router();
 router.get('/', async (req, res) => {
     try {
         const recentPosts = await Post.findAll({ limit: 5, order: [['createdAt', 'DESC']] });
-        res.render('homepage', { posts: recentPosts });
+        res.render('homepage', { posts: recentPosts, logged_in: req.session.logged_in });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Failed to load homepage' });
@@ -30,7 +30,7 @@ router.get('/post/:postId', async (req, res) => {
             include: [{ model: User, attributes: ['username'] }]
         });
 
-        res.render('post', { post: postData, comments: commentsData });
+        res.render('post', { post: postData, comments: commentsData, logged_in: req.session.logged_in });
     } catch (err) {
         console.log(err);
         res.status(500).json({ message: 'Internal server error' });

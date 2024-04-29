@@ -29,6 +29,12 @@ const hbs = exphbs.create({ helpers });
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 
+//  Will check to see if path to public folder is valid
+app.use(express.static("./public"))
+
+// Middleware that creates the body property on the request object
+app.use(express.json())
+
 app.use(routes);
 
 sequelize.sync({ force: false }).then(() => {
