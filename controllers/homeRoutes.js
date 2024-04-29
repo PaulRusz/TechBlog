@@ -3,6 +3,7 @@ const { User, Comment, Post } = require('../models');
 const router = express.Router();
 const withAuth = require('../utils/auth');
 const sequelize = require('../config/connection');
+const { error } = require('console');
 
 // GET route for the homepage
 router.get('/', async (req, res) => {
@@ -41,22 +42,24 @@ router.get('/post/:postId', async (req, res) => {
 });
 
 // Use withAuth middleware to prevent access to route
-router.get('/profile', withAuth, async (req, res) => {
+router.get('/dashboard', withAuth, async (req, res) => {
     try {
       // Find the logged in user based on the session ID
       const userData = await User.findByPk(req.session.user_id, {
         attributes: { exclude: ['password'] },
-        include: [{ model: User }],
+        include: [{ model: Post }],
       });
   
       const user = userData.get({ plain: true });
+      console.log(error)
   
-      res.render('profile', {
+      res.render('dashboard', {
         ...user,
         loggedIn: true
       });
     } catch (err) {
       res.status(500).json(err);
+      console.log(error)
     }
   });
 
@@ -79,7 +82,7 @@ router.post('/post/:postId/comment', async (req, res) => {
 router.get('/login', (req, res) => {
     // If the user is already logged in, redirect the request to another route
     if (req.session.loggedIn) {
-      res.redirect('/profile');
+      res.redirect('/dashboard');
       return;
     }
   

@@ -1,4 +1,4 @@
-const loginFormHanlder = async (event) => {
+const loginFormHandlder = async (event) => {
     event.preventDefault()
 
 
@@ -9,14 +9,14 @@ const loginFormHanlder = async (event) => {
     if (email && password) {
         // Sends a POST request to the API 
         const response = await fetch('/api/users/login', {
-            meth: 'POST',
+            method: 'POST',
             body: JSON.stringify({ email, password }),
             headers: { 'Content-Type': 'application/json' },
         })
 
         if (response.ok) {
-            // If the request is successful, this will redirect the browser to the profile page
-            document.location.replace('/profile');
+            // If the request is successful, this will redirect the browser to the dashboard page
+            document.location.replace('/dashboard');
         } else {
           alert(response.statusText);
         }
@@ -28,29 +28,39 @@ const loginFormHanlder = async (event) => {
 const signupFormHandler = async (event) => {
     event.preventDefault();
 
-// Gathers values from the handlebars
+    // Gathers values from the handlebars
     const name = document.querySelector('#name-signup').value.trim();
     const email = document.querySelector('#email-signup').value.trim();
     const password = document.querySelector('#password-signup').value.trim();
-  
+
     if (name && email && password) {
-      const response = await fetch('/api/users', {
-        method: 'POST',
-        body: JSON.stringify({ name, email, password }),
-        headers: { 'Content-Type': 'application/json' },
-      });
-  
-      if (response.ok) {
-        document.location.replace('/profile');
-      } else {
-        alert(response.statusText);
+      try {
+        const response = await fetch('/api/users', {
+          method: 'POST',
+          body: JSON.stringify({ name, email, password }),
+          headers: { 'Content-Type': 'application/json' },
+        });
+
+        if (response.ok) {
+          document.location.replace('/dashboard');
+        } else {
+          const error = await response.json();
+          if (error.errors[0].message === 'email must be unique') {
+            alert('That email address is already in use. Please try logging in or use a different email address.');
+          } else {
+            alert(response.statusText);
+          }
+        }
+      } catch (err) {
+        console.error(err);
+        alert('An error occurred while creating the user. Please try again.');
       }
     }
   };
   
   document
     .querySelector('.login-form')
-    .addEventListener('submit', loginFormHandler);
+    .addEventListener('submit', loginFormHandlder);
   
   document
     .querySelector('.signup-form')

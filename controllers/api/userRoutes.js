@@ -12,7 +12,7 @@ router.post('/', async (req, res) => {
             req.session.user_id = userData.user_id
             req.session.loggedIn = true
 
-            res.status(200).json(userData)
+            res.json({ userData: userData, message: 'You are now signed in!' })
         })
     } catch (err) {
         res.status(400).json(err)
@@ -43,10 +43,11 @@ router.post('/login', async (req, res) => {
         req.session.save(() => {
             req.session.user_id = userData.id;
             req.session.loggedIn = true
-            res.json({ user: userData, message: 'You are now logged in!' })
+            res.json({ userData: userData, message: 'You are now logged in!' })
         });
 
     } catch (err) {
+        console.log("Login err",err);
         res.status(400).json(err)
     }
 })
