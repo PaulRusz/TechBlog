@@ -1,12 +1,14 @@
 const express = require('express');
 const { User, Comment, Post } = require('../models');
 const router = express.Router();
+const withAuth = require('../utils/auth');
 
 // GET route for the homepage
 router.get('/', async (req, res) => {
     try {
         const recentPosts = await Post.findAll({ limit: 5, order: [['createdAt', 'DESC']] });
-        res.render('homepage', { posts: recentPosts, logged_in: req.session.logged_in });
+        res.render('homepage', { posts: recentPosts, logged_in: req.session.logged_in  
+    });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Failed to load homepage' });
@@ -37,6 +39,26 @@ router.get('/post/:postId', async (req, res) => {
     }
 });
 
+// Use withAuth middleware to prevent access to route
+router.get('/profile', withAuth, async (req, res) => {
+    try {
+      // Find the logged in user based on the session ID
+      const userData = await User.findByPk(req.session.user_id, {
+        attributes: { exclude: ['password'] },
+        include: [{ model: User }],
+      });
+  
+      const user = userData.get({ plain: true });
+  
+      res.render('profile', {
+        ...user,
+        logged_in: true
+      });
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  });
+
 // POST route to submit a comment on a blog post
 router.post('/post/:postId/comment', async (req, res) => {
     try {
@@ -52,6 +74,16 @@ router.post('/post/:postId/comment', async (req, res) => {
         res.status(500).json({ message: 'Failed to submit comment' });
     }
 });
+
+router.get('/login', (req, res) => {
+    // If the user is already logged in, redirect the request to another route
+    if (req.session.logged_in) {
+      res.redirect('/profile');
+      return;
+    }
+  
+    res.render('login');
+  });
 
 
 module.exports = router;
