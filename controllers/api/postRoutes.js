@@ -7,6 +7,9 @@ const router = require('express').Router();
 router.post('/', async (req, res) => {
     try {
         const { title, content } = req.body
+        console.log(req.body, "req.body")
+
+        console.log(title, "= title", content, "=  content")
 
         // Create a new post
         const newPost = await Post.create({
