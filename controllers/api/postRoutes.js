@@ -6,23 +6,26 @@ const router = require('express').Router();
 // Route to create a new post
 router.post('/', async (req, res) => {
     try {
-        const { title, content } = req.body
-        console.log(req.body, "req.body")
+        const { title, content } = req.body;
+        console.log(req.body)
 
-        console.log(title, "= title", content, "=  content")
+        // Check if title and content are provided
+        if (!title || !content) {
+            return res.status(400).json({ message: 'Title and content are required' });
+        }
 
-        // Create a new post
+        // Create a new post with the provided title and content
         const newPost = await Post.create({
-            title, 
+            title,
             content
-        })
+        });
 
-        res.status(201).json(newPost) // Return the new created post
+        res.status(201).json(newPost); // Return the newly created post
     } catch (error) {
-        console.error(error)
-        res.status(500).json({ message: 'Failed to create post' })
+        console.error(error);
+        res.status(500).json({ message: 'Failed to create post' });
     }
-})
+});
 
 
 // Route to update post

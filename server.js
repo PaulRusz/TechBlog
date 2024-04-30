@@ -53,6 +53,9 @@ app.use(express.static("./public"))
 // Middleware that creates the body property on the request object
 app.use(express.json())
 
+// Handles json
+app.use(express.urlencoded({ extended: true }));
+
 app.use(routes);
 
 sequelize.sync({ force: false }).then(() => {
