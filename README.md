@@ -1,6 +1,6 @@
 # TechBlog
 
-a blog for reviewing old and finding new technology
+a blog for discussing, reviewing and finding new or old technology
 
 Link to the deployed application can be tested here on Heroku: [Tech Blog]() and the project repository can be viewed here: [Tech Blog](https://github.com/PaulRusz/TechBlog).
 
