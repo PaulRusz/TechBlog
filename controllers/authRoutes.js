@@ -6,7 +6,7 @@ const router = express.Router();
 router.get('/register', (req, res) => {
     res.render('register', { loggedIn: req.session.loggedIn }); // Render the registration form view
 });
-
+au
 // Registration route - handles the form submission
 router.post('/register', async (req, res) => {
     try {
