@@ -4,7 +4,7 @@ const { Post, User, Comment } = require('../models');
 const withAuth = require('../utils/auth');
 
 // Middleware to check if user is logged in
-const withAuth = (req, res, next) => {
+const checkAuth = (req, res, next) => {
     if (!req.session.loggedIn) {
       res.redirect('/login');
     } else {
@@ -36,7 +36,7 @@ const withAuth = (req, res, next) => {
   module.exports = router;
 
 
-router.get('/new', (req, res) => {
+router.get('/new', checkAuth, (req, res) => {
     res.render('new-post');
 });
 
