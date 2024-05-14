@@ -3,7 +3,7 @@ const { User } = require('../../models');
 const router = require('express').Router();
 
 
-// route handler to create a new user
+// Route to create a new user
 router.post('/', async (req, res) => {
     try {
         const userData = await User.create(req.body);

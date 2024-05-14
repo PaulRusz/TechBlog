@@ -39,6 +39,30 @@ header, .project:not(:last-child) {
     text-decoration: none;
     font-size: 100%;
   }
+
+  .header {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    text-decoration: none; /* Remove underline */
+  }
+
+  .body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #335;
+    color: white;
+    font-family: Arial, sans-serif;
+  }
   
   .no-button:hover {
     color: #065b83;

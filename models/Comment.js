@@ -27,7 +27,7 @@ Comment.init(
     },
     {
         sequelize, // Pass the Sequelize instance here
-        modelName: 'comment'
+        modelName: 'Comment'
     }
 );
 
