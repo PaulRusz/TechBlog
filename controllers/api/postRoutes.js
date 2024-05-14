@@ -18,7 +18,6 @@ router.post('/', async (req, res) => {
             title,
             content
         });
-
         // Log a message when the post is successfully created
         console.log('Blog Post Created!');
 
@@ -89,7 +88,7 @@ router.get('/posts', async (req, res) => {
 
 
 // Route to delete a post
-router.delete('/posts/:postId', async (req, res) => {
+router.delete('/post/:postId', async (req, res) => {
     try {
         const postId = req.params.postId;
         
