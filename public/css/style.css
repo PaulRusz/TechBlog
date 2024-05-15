@@ -51,6 +51,7 @@ header, .project:not(:last-child) {
     text-align: center;
     padding: 10px 0;
     text-decoration: none; /* Remove underline */
+    z-index: 999; /* Ensure the header is above other content */
   }
 
   .body {
@@ -62,6 +63,11 @@ header, .project:not(:last-child) {
     background-color: #335;
     color: white;
     font-family: Arial, sans-serif;
+    padding-top: 200px;
+  }
+
+  .seperation {
+    margin: 100px;
   }
   
   .no-button:hover {
@@ -99,4 +105,29 @@ header, .project:not(:last-child) {
     font-size: 1.2rem;
     border: 1px solid #484848;
     border-radius: 0.3rem;
+  }
+
+  .blog-posts {
+    padding-top: 150px;
+  }
+
+  .blog-post {
+    padding: 15px;
+  }
+
+  .delete {
+    padding: 10px 20px;
+    background: linear-gradient(to right, #FFD700, #FFA500);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    font-family: 'Arial', sans-serif;
+  }
+
+  .delete:hover {
+    background: linear-gradient(to right, #FFA500, #FFD700);
+    transform: scale(1.1);
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
   }

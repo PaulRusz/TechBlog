@@ -1,4 +1,7 @@
 <h1>Welcome to the Tech Blog</h1>
+
+<div class="seperation"></div>
+
 <div class="blog-posts">
     {{#each posts}}
         <div class="blog-post">
@@ -7,6 +10,11 @@
             <p>{{content}}</p>
             <a href="/posts/{{id}}">Read More</a>
             <a href="/posts/{{id}}#comments">Comments</a>
+
+            <br>
+
+            <form action="/posts/{{id}}?_method=DELETE" method="POST">
+            <button type="submit" class="delete">Delete</button>
         </div>
     {{/each}}
 </div>

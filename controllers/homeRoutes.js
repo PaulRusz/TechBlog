@@ -119,8 +119,12 @@ router.get('/', async (req, res) => {
       // Fetch blog posts from the database
       const recentPosts = await Post.findAll({ limit: 5, order: [['createdAt', 'DESC']] });
 
+      // serialize data so the template can read it
+      const posts = recentPosts.map((post) => post.get({ plain: true }))
+      console.log(posts)
+
       // Render the homepage view with the list of blog posts
-      res.render('homepage', { posts: recentPosts, loggedIn: req.session.loggedIn });
+      res.render('homepage', { posts: posts, loggedIn: req.session.loggedIn });
   } catch (error) {
       console.error(error);
       res.status(500).json({ message: 'Failed to load homepage' });
